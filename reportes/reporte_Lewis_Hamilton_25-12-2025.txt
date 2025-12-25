@@ -1,0 +1,36 @@
+============================================================
+        REPORTE DE INVESTIGACION - FORMULA 1 (Temporada 2025)
+        ============================================================
+        
+        FECHA DEL REPORTE: 25-12-2025
+        CARRERA: Melbourne
+        ID DE SESION: 9693
+        
+        ------------------------------------------------------------
+        1. INFORMACION DEL PILOTO
+        ------------------------------------------------------------
+        
+        NOMBRE: Lewis HAMILTON
+        ESCUDERIA: Mercedes
+        PAIS: GBR
+        BIOGRAFIA (Vía Wikipedia):
+        Lewis Hamilton
+        Lewis Carl Davidson Hamilton (Stevenage; 7 de enero de 1985) es un piloto de automovilismo británico.[2]​ Compitió en Fórmula 1 entre 2007 y 2012 con la escudería McLaren, donde se proclamó campeón en 2008 y subcampeón en 2007. Desde 2013 hasta la temporada 2024 formó parte del equipo Mercedes, con el que resultó campeón en 2014, 2015, 2017, 2018, 2019, 2020, igualando los 7 títulos mundiales de Michael Schumacher. Asimismo, fue subcampeón en 2016 y 2021, y tercero en 2023. Ha logrado alzarse con 105 victorias en Grandes Premios a lo largo de su carrera, superando en 2020 el récord de victorias en la historia de la Fórmula 1. Desde 2025 compite en la escudería Ferrari.[3]​
+
+        
+        ------------------------------------------------------------
+        2. ESTADISTICAS DE DESEMPEÑO EN CARRERA
+        ------------------------------------------------------------
+        
+        TIEMPO PROMEDIO DE VUELTA: 105.542
+        VUELTA MAS RAPIDA: 84.218
+        POSICION INICIO CARRERA: 8
+        POSICION FINAL CARRERA: 10 (-2)
+        
+        ------------------------------------------------------------
+        3. FUENTES Y METADATOS
+        ------------------------------------------------------------
+        
+        - Datos de Telemetria: OpenF1 API (v1)
+        - Datos Biograficos: Wikipedia (es.wikipedia.org)
+        ============================================================

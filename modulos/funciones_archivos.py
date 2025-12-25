@@ -15,7 +15,7 @@ def createArchive(dataDriver):
         if not os.path.exists(ubicacionReportes):
             os.makedirs(ubicacionReportes)
         
-        nombreArchivo = 'reporte_' + fechaFormato + '.txt'
+        nombreArchivo = f'reporte_{dataDriver['searchName']}_' + fechaFormato + '.txt'
         ubicacionArchivo = os.path.join(ubicacionReportes, nombreArchivo)
 
         content = f"""============================================================
@@ -74,6 +74,8 @@ def order_folder():
         os.mkdir(historial)
 
     for file in os.listdir(ubicacionReportes):
-        if file != f"reporte_{fechaFormato}.txt":
+        if fechaFormato not in file:
             origin = os.path.join(ubicacionReportes, file)
             shutil.move(origin, historial)
+
+    
