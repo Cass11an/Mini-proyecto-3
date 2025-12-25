@@ -1,7 +1,21 @@
 import os
 import datetime
 
-def createArchive(bioDriver, dataDriver):
+dataDriver = {
+            'start': "start",
+            'end': "end",
+            'change': "change",
+            'bestLap': "bestLap",
+            'promLap': "promLap",
+            "teamName": "team_name",
+            "country": "country_code",
+            "fullName": "full_name",
+            'searchName': "shearchName",
+            'title': "title",
+            'biography': "biography"
+            }
+
+def createArchive(dataDriver):
     fecha = datetime.now()
     fechaFormato = fecha.strftime('%d/%m/%Y')
 
@@ -19,7 +33,7 @@ def createArchive(bioDriver, dataDriver):
         REPORTE DE INVESTIGACION - FORMULA 1 (Temporada 2025)
         ============================================================
         
-        FECHA DEL REPORTE: 2025-12-24
+        FECHA DEL REPORTE: {fechaFormato}
         CARRERA: [Nombre de la Ubicación / GP]
         ID DE SESION: [9XXX]
         
@@ -27,21 +41,21 @@ def createArchive(bioDriver, dataDriver):
         1. INFORMACION DEL PILOTO
         ------------------------------------------------------------
         
-        NOMBRE: [Full Name del Piloto]
-        NUMERO: #[Driver Number]
-        ESCUDERIA: [Team Name]
-        PAIS: [NOMBRE DEL PAIS]
+        NOMBRE: {dataDriver['fullName']}
+        ESCUDERIA: {dataDriver['teamName']}
+        PAIS: {dataDriver['country']}
         BIOGRAFIA (Vía Wikipedia):
-        [Aquí pegas el primer párrafo extraído con BeautifulSoup]
+        {dataDriver['title']}
+        {dataDriver['biography']}
         
         ------------------------------------------------------------
         2. ESTADISTICAS DE DESEMPEÑO EN CARRERA
         ------------------------------------------------------------
         
-        TIEMPO PROMEDIO DE VUELTA: [00:00.000]
-        VUELTA MAS RAPIDA: [00:00.000] (Vuelta #X)
-        POSICION INICIO CARRERA:
-        POSICION FINAL CARRERA: [POSICION FINAL] [VARIACION]
+        TIEMPO PROMEDIO DE VUELTA: {dataDriver['title']}
+        VUELTA MAS RAPIDA: {dataDriver['title']}
+        POSICION INICIO CARRERA: {dataDriver['title']}
+        POSICION FINAL CARRERA: {dataDriver['title']} ({dataDriver['title']})
         
         ------------------------------------------------------------
         3. FUENTES Y METADATOS
@@ -50,6 +64,8 @@ def createArchive(bioDriver, dataDriver):
         - Datos de Telemetria: OpenF1 API (v1)
         - Datos Biograficos: Wikipedia (es.wikipedia.org)
         ============================================================"""
+
+
             
 
 
