@@ -6,7 +6,7 @@ def get_biography(url):
         "Accept-Language": "es-ES,es;q=0.9",
     }
 
-    response = requests.get(url, headers= headers, verify=False)
+    response = requests.get(url, headers= headers)
 
     soup = bs(response.text, 'html.parser')
 
@@ -23,6 +23,3 @@ def get_biography(url):
 
     return bioDriver
 
-prueba = get_biography()
-
-print(prueba)

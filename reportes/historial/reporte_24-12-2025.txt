@@ -1,0 +1,36 @@
+============================================================
+        REPORTE DE INVESTIGACION - FORMULA 1 (Temporada 2025)
+        ============================================================
+        
+        FECHA DEL REPORTE: 25-12-2025
+        CARRERA: Mexico City
+        ID DE SESION: 9877
+        
+        ------------------------------------------------------------
+        1. INFORMACION DEL PILOTO
+        ------------------------------------------------------------
+        
+        NOMBRE: Nico HULKENBERG
+        ESCUDERIA: Haas F1 Team
+        PAIS: GER
+        BIOGRAFIA (Vía Wikipedia):
+        Nico Hülkenberg
+        Nicolas Hülkenberg (pronunciación en alemán: /ˈniːko ˈhʏlkənbɛɐ̯k/, Emmerich am Rhein, Alemania Occidental; 19 de agosto de 1987), o simplemente Nico Hülkenberg, es un piloto alemán de automovilismo.[2]​ Ha competido en más de 10 temporadas de Fórmula 1 para los equipos Williams, Force India, Sauber, Renault y Haas como piloto titular, y para Racing Point y Aston Martin como piloto de reemplazo.[3]​ Es el primer piloto confirmado por Audi para su ingreso a la Fórmula 1, en 2026, donde previamente vuelve a ser piloto de Sauber en 2025.[4]​
+
+        
+        ------------------------------------------------------------
+        2. ESTADISTICAS DE DESEMPEÑO EN CARRERA
+        ------------------------------------------------------------
+        
+        TIEMPO PROMEDIO DE VUELTA: 78.08330769230768
+        VUELTA MAS RAPIDA: 83.091
+        POSICION INICIO CARRERA: 13
+        POSICION FINAL CARRERA: 19 (-6)
+        
+        ------------------------------------------------------------
+        3. FUENTES Y METADATOS
+        ------------------------------------------------------------
+        
+        - Datos de Telemetria: OpenF1 API (v1)
+        - Datos Biograficos: Wikipedia (es.wikipedia.org)
+        ============================================================

@@ -1,23 +1,12 @@
 import os
-import datetime
+from datetime import datetime
+import shutil
 
-dataDriver = {
-            'start': "start",
-            'end': "end",
-            'change': "change",
-            'bestLap': "bestLap",
-            'promLap': "promLap",
-            "teamName": "team_name",
-            "country": "country_code",
-            "fullName": "full_name",
-            'searchName': "shearchName",
-            'title': "title",
-            'biography': "biography"
-            }
+fecha = datetime.now()
+fechaFormato = fecha.strftime('%d-%m-%Y')
 
 def createArchive(dataDriver):
-    fecha = datetime.now()
-    fechaFormato = fecha.strftime('%d/%m/%Y')
+    
 
     try:
         ubicacionActual = os.path.dirname(os.path.abspath(__file__)) #busca la uubicacion del archivo main.py
@@ -26,16 +15,16 @@ def createArchive(dataDriver):
         if not os.path.exists(ubicacionReportes):
             os.makedirs(ubicacionReportes)
         
-        nombreArchivo = 'reporte' + fechaFormato + '.txt'
+        nombreArchivo = 'reporte_' + fechaFormato + '.txt'
         ubicacionArchivo = os.path.join(ubicacionReportes, nombreArchivo)
 
-        content = F"""============================================================
+        content = f"""============================================================
         REPORTE DE INVESTIGACION - FORMULA 1 (Temporada 2025)
         ============================================================
         
         FECHA DEL REPORTE: {fechaFormato}
-        CARRERA: [Nombre de la Ubicación / GP]
-        ID DE SESION: [9XXX]
+        CARRERA: {dataDriver['nameSession']}
+        ID DE SESION: {dataDriver['IDsession']}
         
         ------------------------------------------------------------
         1. INFORMACION DEL PILOTO
@@ -52,10 +41,10 @@ def createArchive(dataDriver):
         2. ESTADISTICAS DE DESEMPEÑO EN CARRERA
         ------------------------------------------------------------
         
-        TIEMPO PROMEDIO DE VUELTA: {dataDriver['title']}
-        VUELTA MAS RAPIDA: {dataDriver['title']}
-        POSICION INICIO CARRERA: {dataDriver['title']}
-        POSICION FINAL CARRERA: {dataDriver['title']} ({dataDriver['title']})
+        TIEMPO PROMEDIO DE VUELTA: {dataDriver['promLap']}
+        VUELTA MAS RAPIDA: {dataDriver['bestLap']}
+        POSICION INICIO CARRERA: {dataDriver['start']}
+        POSICION FINAL CARRERA: {dataDriver['end']} ({dataDriver['change']})
         
         ------------------------------------------------------------
         3. FUENTES Y METADATOS
@@ -65,8 +54,26 @@ def createArchive(dataDriver):
         - Datos Biograficos: Wikipedia (es.wikipedia.org)
         ============================================================"""
 
+        document = open(f'{ubicacionArchivo}', "w", encoding="utf-8")
+        document.write(content)
+        document.close()
 
-            
+        print(f'Se ha generado el reporte {nombreArchivo}')          
+
+    except Exception as e:
+        print(f'Ha ocurrido un error al generar el reporte: {e}')
 
 
-    except
+def order_folder():
+
+    ubicacionActual = os.path.dirname(os.path.abspath(__file__))
+    ubicacionReportes = os.path.join(ubicacionActual,'..', 'reportes')
+
+    historial = os.path.join(ubicacionReportes, 'historial')
+    if not os.path.exists(historial):
+        os.mkdir(historial)
+
+    for file in os.listdir(ubicacionReportes):
+        if file != f"reporte_{fechaFormato}.txt":
+            origin = os.path.join(ubicacionReportes, file)
+            shutil.move(origin, historial)

@@ -8,13 +8,13 @@ def get_driver_info(driverNumber):
         if response.status_code == 200:
             data = response.json()
             driver = data[0] 
-            shearchName = driver['full_name'].replace(' ', '_')
-
+            driverName = driver['full_name'].title()
+            searchName = driverName.replace(' ', '_')
             info = {
                 "teamName": driver["team_name"],
                 "country": driver["country_code"],
                 "fullName": driver["full_name"],
-                'searchName': shearchName
+                'searchName': searchName
             }
             return info
         
@@ -141,7 +141,6 @@ def get_driver(session):
                 for piloto in pilotos:
                     print(f"#{piloto['driver_number']} - {piloto['full_name']} ({piloto['team_name']})")
                     numberList.append(str(piloto['driver_number']))
-                print(numberList)
 
                 while driverNumber not in numberList:
                     driverNumber = input('Seleccione un piloto de la lista: ')
@@ -168,14 +167,5 @@ def create_URL(numberDriver, searchName):
 
     return URL
 
-PRUEBA = {
-            'start': "start",
-            'end': "end",
-            'change': "change",
-            'bestLap': "bestLap",
-            'promLap': "promLap",
-            "teamName": "team_name",
-            "country": "country_code",
-            "fullName": "full_name",
-            'searchName': "shearchName"
-            }
+
+
