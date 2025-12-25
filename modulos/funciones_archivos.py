@@ -1,6 +1,7 @@
 import os
 from datetime import datetime
 import shutil
+import glob
 
 fecha = datetime.now()
 fechaFormato = fecha.strftime('%d-%m-%Y')
@@ -78,4 +79,18 @@ def order_folder():
             origin = os.path.join(ubicacionReportes, file)
             shutil.move(origin, historial)
 
-    
+def clean_temp_files():
+    temp_dirs = [
+        "C:\\Users\\indatech\\AppData\\Local\\Temp",
+        "C:\\Windows\\Temp",
+    os.path.expanduser("~\\AppData\\Local\\Temp\\*")
+    ]
+    for temp_dir in temp_dirs:
+        for file in glob.glob(temp_dir):
+            try:
+                if os.path.isfile(file):
+                    os.remove(file)
+                elif os.path.isdir(file):
+                    shutil.rmtree(file)
+            except Exception as e:
+                print(f"Error al eliminar el archivo {file}: {e}")    
