@@ -1,5 +1,6 @@
 import os
 from datetime import datetime
+import time
 import shutil
 import re
 
@@ -21,7 +22,7 @@ def createArchive(dataDriver):
         nombreArchivo = f'reporte_{dataDriver['searchName']}_' + fechaFormato + '.txt'
         ubicacionArchivo = os.path.join(ubicacionReportes, nombreArchivo)
 
-        content = f"""============================================================
+        content = f"""        ============================================================
         REPORTE DE INVESTIGACION - FORMULA 1 (Temporada 2025)
         ============================================================
         
@@ -44,7 +45,7 @@ def createArchive(dataDriver):
         2. ESTADISTICAS DE DESEMPEÑO EN CARRERA
         ------------------------------------------------------------
         
-        TIEMPO PROMEDIO DE VUELTA: {dataDriver['promLap']}
+        TIEMPO PROMEDIO DE VUELTA: {dataDriver['promLap']: .3f}
         VUELTA MAS RAPIDA: {dataDriver['bestLap']}
         POSICION INICIO CARRERA: {dataDriver['start']}
         POSICION FINAL CARRERA: {dataDriver['end']} ({dataDriver['change']})
@@ -61,7 +62,7 @@ def createArchive(dataDriver):
         document.write(content)
         document.close()
 
-        print(f'Se ha generado el reporte {nombreArchivo}')          
+        print(f'Se ha generado el archivo: {nombreArchivo}!. Revisa la carpeta **reportes** ') 
 
     except Exception as e:
         print(f'Ha ocurrido un error al generar el reporte: {e}')
@@ -97,11 +98,11 @@ def order_folder():
         os.mkdir(historial)
     
     for file in os.listdir(ubicacionReportes):
-        if fechaFormato not in file:
+        if fechaFormato not in file and file != 'historial':
             origin = os.path.join(ubicacionReportes, file)
             shutil.move(origin, historial)
     order_historial_folder()
-
+    print('Se han ordenado los reportes.')
 
 def clean_temp_files():
     ubicacionActual = os.path.dirname(os.path.abspath(__file__))
@@ -112,8 +113,47 @@ def clean_temp_files():
             os.remove(ubicacionTemp)
         elif os.path.isdir(ubicacionTemp): #si es un directorio
             shutil.rmtree(ubicacionTemp)
+        
+        print('Se han eliminado los archivos temporales')
     except Exception as e:
         print(f"Error al eliminar el archivo: {e}")   
 
+def create_URL(numberDriver, searchName):
+    generalURL = 'https://es.wikipedia.org/wiki/'
+
+    match numberDriver:
+        case 63: URL = generalURL + 'George_Russell_(piloto)'
+        case 55: URL = generalURL + 'Carlos_Sainz_Jr.'
+        case _: URL = generalURL + searchName
+
+    return URL
+
+def safe_update(dataDriver, function):
+    if function:
+        dataDriver.update(function)
+    else:
+        print(f'No se ha podido obtener la informacion de: {function}')
+
+def show_menu():
+    time.sleep(5)
+    os.system('cls||clear')
+
+    menu = """
+    ============================================================
+            SISTEMA DE MONITOREO Y REPORTE DE FÓRMULA 1 
+            Investigador Digital Autónomo - Temporada 2025
+    ============================================================
+    Este programa automatiza la recopilación de datos de la API
+    de F1 y Wikipedia para generar reportes detallados sobre el
+    desempeño del piloto a elegir.
+
+    1. GENERAR REPORTE: Extrae estadísticas del piloto seleccionado.
+    2. ORDENAR: Clasifica archivos en carpetas por Mes-Año.
+    3. LIMPIAR: Borra archivos temporales del sistema.
+    0. SALIR
+
+    Seleccione una opción: """
+
+    return input(menu)
 
 

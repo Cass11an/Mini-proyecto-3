@@ -1,22 +1,58 @@
-from modulos import funciones_api as gestapi
-from modulos import scrapping_bio as scrap
-from modulos import funciones_archivos as gestrkive
+from modulos import get_info as info
+from modulos import utilidades as util
 
 dataDriver = {}
+menu = ''
 
-sessionInfo = gestapi.get_2025_session()
+while menu != '0':
 
-dataDriver.update(sessionInfo)
-session = sessionInfo['IDsession']
-driver = gestapi.get_driver(session) 
-dataDriver.update(gestapi.get_driver_info(driver))
-dataDriver.update(gestapi.get_performance_stats(driver, session))
-dataDriver.update(gestapi.get_position(driver, session))
+    try:
+        menu = util.show_menu()
 
-URL = gestapi.create_URL(driver, dataDriver['searchName'])
-dataDriver.update(scrap.get_biography(URL))
+        match menu:
+            case '0':
+                print('Saliendo... Hasta luego!')
+            case '1': 
+                sessionData = info.get_2025_session()
+                if sessionData:
+                    session = sessionData['IDsession']
+                    dataDriver.update(sessionData)
 
-gestrkive.createArchive(dataDriver)
-gestrkive.order_folder()
+                    driverInfo = info.get_driver(session)
+                    if driverInfo:
+                        numberDriver = driverInfo['driverNumber']
+                        dataDriver.update(driverInfo)
+
+                        print('Generando reporte...')
+                        util.safe_update(dataDriver, info.get_driver_info(numberDriver))
+                        util.safe_update(dataDriver, info.get_performance_stats(numberDriver, session))
+                        util.safe_update(dataDriver, info.get_position(numberDriver, session))
+
+                        URL = util.create_URL(numberDriver, dataDriver['searchName'])
+                        util.safe_update(dataDriver, info.get_biography(URL))
+
+                        util.createArchive(dataDriver)
+                        util.order_folder()  
+                    
+                    else:
+                        print('Ha ocurrido un error al obtener la informacion de un piloto')
+                else:
+                    print('Ha ocurrido un error al obtener la informacion de la session')
+
+                util.clean_temp_files()
+                
+            case '2':
+                util.order_folder()  
+            case '3':
+                util.clean_temp_files()                
+            case _:
+                print('Debe seleccionar una opcion del menu')
+    
+
+    except ValueError:
+        print('Debe seleccionar una de las opciones en numeros')
+
+
+
 
 

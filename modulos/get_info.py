@@ -1,10 +1,34 @@
+from bs4 import BeautifulSoup as bs
 import requests
 
-def get_driver_info(driverNumber):
-    url = f'https://api.openf1.org/v1/drivers?driver_number={driverNumber}' 
-    response = requests.get(url)
-
+def get_biography(url):
+    headers = {'User-Agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64) ...",
+        "Accept-Language": "es-ES,es;q=0.9",
+    }
     try:
+        response = requests.get(url, headers= headers)
+
+        soup = bs(response.text, 'html.parser')
+
+        pageAll = soup.find('div',{'class': "mw-content-ltr mw-parser-output"})
+        biography = pageAll.find('p').text
+
+        header = soup.find('header', {'class': "mw-body-header vector-page-titlebar no-font-mode-scale"})
+        title = header.find('h1').text
+
+        bioDriver = {
+            'title': title,
+            'biography': biography
+        }
+
+        return bioDriver
+    except requests.exceptions.ConnectionError:
+        print("No hay conexion a internet.")
+
+def get_driver_info(driverNumber):
+    url = f'https://api.openf1.org/v1/drivers?driver_number={driverNumber}'
+    try:
+        response = requests.get(url, timeout=30)
         if response.status_code == 200:
             data = response.json()
             driver = data[0] 
@@ -26,9 +50,8 @@ def get_driver_info(driverNumber):
 def get_performance_stats(driverNumber, session):
     time = []
     url = f'https://api.openf1.org/v1/laps?session_key={session}&driver_number={driverNumber}' 
-    response = requests.get(url)
-
-    try:
+    try:        
+        response = requests.get(url, timeout=30)
         if response.status_code == 200:
             vueltas = response.json()
             for i in range(len(vueltas)):
@@ -54,18 +77,21 @@ def get_performance_stats(driverNumber, session):
         print("No hay conexion a internet.")
         return None
 
-def get_position(driverNumber, session):
+def get_position(driverNumber, session): 
     url = f'https://api.openf1.org/v1/position?session_key={session}&driver_number={driverNumber}' 
-    response = requests.get(url)
+    start = 0
+    end = 0
+    change = 0
 
     try:
+        response = requests.get(url, timeout=30)
         if response.status_code == 200:
             data = response.json()
             rango = len(data)
 
-            if rango > 1: 
+            if rango > 0: #si tiene por lo menos un valor
                 start = data[0]["position"]
-                end = data[rango - 1]["position"]
+                end = data[-1]["position"]
                 change = start - end
             
             position = {
@@ -81,7 +107,6 @@ def get_position(driverNumber, session):
         print("No hay conexion a internet.")
         return None
 
-
 def get_2025_session():
     url = "https://api.openf1.org/v1/sessions?year=2025&session_name=Race"
     IDs = []
@@ -89,7 +114,7 @@ def get_2025_session():
     session = ''
 
     try:
-        response = requests.get(url)
+        response = requests.get(url, timeout=30)
         if response.status_code == 200:
             carreras = response.json()
             
@@ -120,15 +145,13 @@ def get_2025_session():
         print("No hay conexion a internet.")
         return None
 
-
 def get_driver(session):
     url = f"https://api.openf1.org/v1/drivers?session_key={session}"
     numberList = []
     driverNumber = ''
 
-    response = requests.get(url)
-
     try:
+        response = requests.get(url, timeout=30)
         if response.status_code == 200:
             pilotos = response.json()
 
@@ -148,24 +171,12 @@ def get_driver(session):
                     if driverNumber not in numberList:
                         print('Debe ingresar el numero del piloto en la lista')
 
-            return driverNumber
+            return {
+                'driverNumber': driverNumber
+            }
         else:
             print(f"Error al conectar: {response.status_code}")
             return None
     except requests.exceptions.ConnectionError:
         print("No hay conexion a internet.")
         return None
-
-
-def create_URL(numberDriver, searchName):
-    generalURL = 'https://es.wikipedia.org/wiki/'
-
-    match numberDriver:
-        case 63: URL = generalURL + 'George_Russell_(piloto)'
-        case 55: URL = generalURL + 'Carlos_Sainz_Jr.'
-        case _: URL = generalURL + searchName
-
-    return URL
-
-
-
