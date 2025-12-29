@@ -1,7 +1,9 @@
 import os
 from datetime import datetime
 import shutil
-import glob
+import re
+
+#FUNCIONES PARA GENERAR ARCHIVOS DE REPORTE
 
 fecha = datetime.now()
 fechaFormato = fecha.strftime('%d-%m-%Y')
@@ -64,6 +66,26 @@ def createArchive(dataDriver):
     except Exception as e:
         print(f'Ha ocurrido un error al generar el reporte: {e}')
 
+#FUNCIONES PARA GESTION DE CARPETAS
+
+def order_historial_folder():
+
+    ubicacionActual = os.path.dirname(os.path.abspath(__file__))
+    ubicacionHistorial = os.path.join(ubicacionActual,'..', 'reportes\\historial')
+
+    #extraemos los nombres de las carpetas de acuerdo a la fecha de los archivos
+    for file in os.listdir(ubicacionHistorial):
+
+        if file.endswith('.txt'):
+            ubicacionArchivo = os.path.join(ubicacionHistorial, file)
+            substr = re.search(r'\d{2}[-]\d{2}[-]\d{4}', file)
+            dateFile = datetime.strptime(substr.group(), '%d-%m-%Y')
+            nameFolder = '[' + dateFile.strftime('%B-%Y') + ']'
+
+            pathFolder = os.path.join(ubicacionHistorial, nameFolder)
+            if not os.path.exists(pathFolder):
+                os.mkdir(pathFolder)
+            shutil.move(ubicacionArchivo, pathFolder)
 
 def order_folder():
 
@@ -73,24 +95,25 @@ def order_folder():
     historial = os.path.join(ubicacionReportes, 'historial')
     if not os.path.exists(historial):
         os.mkdir(historial)
-
+    
     for file in os.listdir(ubicacionReportes):
         if fechaFormato not in file:
             origin = os.path.join(ubicacionReportes, file)
             shutil.move(origin, historial)
+    order_historial_folder()
+
 
 def clean_temp_files():
-    temp_dirs = [
-        "C:\\Users\\indatech\\AppData\\Local\\Temp",
-        "C:\\Windows\\Temp",
-    os.path.expanduser("~\\AppData\\Local\\Temp\\*")
-    ]
-    for temp_dir in temp_dirs:
-        for file in glob.glob(temp_dir):
-            try:
-                if os.path.isfile(file):
-                    os.remove(file)
-                elif os.path.isdir(file):
-                    shutil.rmtree(file)
-            except Exception as e:
-                print(f"Error al eliminar el archivo {file}: {e}")    
+    ubicacionActual = os.path.dirname(os.path.abspath(__file__))
+    ubicacionTemp = os.path.join(ubicacionActual,'..', 'modulos\\__pycache__')
+
+    try:
+        if os.path.isfile(ubicacionTemp): #si es solo un archivo
+            os.remove(ubicacionTemp)
+        elif os.path.isdir(ubicacionTemp): #si es un directorio
+            shutil.rmtree(ubicacionTemp)
+    except Exception as e:
+        print(f"Error al eliminar el archivo: {e}")   
+
+
+
